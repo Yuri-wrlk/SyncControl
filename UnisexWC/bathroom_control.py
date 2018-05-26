@@ -36,7 +36,7 @@ class Bathroom_Control(object):
         elif person in self.women_queue:
             self.women_queue.remove(person)
 
-        self.bathroom.append(person)
+        self.processMutex(self.bathroom.append(person))
         self.usage += 1
         self.gender_using = person.gender
         person.start()
@@ -47,7 +47,7 @@ class Bathroom_Control(object):
         self.gender_using is None
 
     def leave_bathroom(self, person):
-        self.bathroom.remove(person)
+        self.processMutex(self.bathroom.remove(person))
         self.usage -= 1
         self.check_next()
 
