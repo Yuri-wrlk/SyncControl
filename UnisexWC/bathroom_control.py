@@ -1,7 +1,10 @@
+from threading import Thread, Lock
 from gender import *
+import threading
+mutex = Lock()
 
 class Bathroom_Control(object):
-    
+
     def __init__(self, capacity):
         self.gender_using = None
         self.capacity_max = capacity
@@ -9,7 +12,15 @@ class Bathroom_Control(object):
         self.men_queue = list()
         self.women_queue = list()
         self.bathroom = list()
-        
+
+
+    def processMutex(intoBathroom):
+      mutex.acquire()
+      try:
+        intoBathroom()
+      finally:
+        mutex.release()
+
 
     def join_queue(self, person):
         if person.gender == Gender.male:
@@ -24,6 +35,7 @@ class Bathroom_Control(object):
             self.men_queue.remove(person)
         elif person in self.women_queue:
             self.women_queue.remove(person)
+
         self.bathroom.append(person)
         self.usage += 1
         self.gender_using = person.gender
@@ -41,14 +53,14 @@ class Bathroom_Control(object):
 
     def check_next(self):
         if self.usage < self.capacity_max:
-            
             if len(self.men_queue) > 0 and (self.gender_using == Gender.male or \
             (self.gender_using == Gender.female and len(self.women_queue) == 0)):
-                self.enter_bathroom(self.men_queue[0])
-            
+              self.processMutex(self.enter_bathroom(self.men_queue[0]))
+
             elif len(self.women_queue) > 0 and (self.gender_using == Gender.female or \
             (self.gender_using == Gender.male and len(self.men_queue) == 0)):
-                self.enter_bathroom(self.women_queue[0])
+              self.processMutex(self.enter_bathroom(self.women_queue[0]))
+
 
     def print_status(self):
         print('-----------------------------------------------------')
