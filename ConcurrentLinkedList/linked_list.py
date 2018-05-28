@@ -5,6 +5,16 @@ class LinkedList(object):
         self.head = None
         self.tail = self.head
 
+    def find (self, val):
+        current = self.head
+        while current != None:
+            if current.val == val:
+                return True, current
+            current = current.next
+        else:
+            return False, None        
+        
+
     def append(self, val, mode="last", pos=1):
         worker = Node(val)
         # Regardless of the mode, if the list is empty then start a new one
