@@ -1,7 +1,6 @@
-from threading import Thread, Lock
+from asyncio import Semaphore
 from gender import *
 import threading
-mutex = Lock()
 
 class Bathroom_Control(object):
 
@@ -12,14 +11,33 @@ class Bathroom_Control(object):
         self.men_queue = list()
         self.women_queue = list()
         self.bathroom = list()
+        self.semaphore = Semaphore(value=capacity)
 
 
-    def processMutex(intoBathroom):
-      mutex.acquire()
-      try:
-        intoBathroom()
-      finally:
-        mutex.release()
+    def get_semaphore(self):
+        return self.semaphore
+
+    def print_status(self):
+        print('-----------------------------------------------------')
+        print('BATHROOM STATUS')
+        print('Actual gender:', get_gender_name(self.gender_using))
+        print('Capacity:', self.capacity_max)
+        print('Using:', len(self.bathroom))
+        print('Men waiting:', len(self.men_queue))
+        print('Women waiting:', len(self.women_queue))
+        print('-----------------------------------------------------\n')
+        print("People inside:")
+        for i, val in enumerate(self.bathroom):
+            print("Person " + str(i) + ": " + str(id(val) % 100000))
+
+
+'''
+def processMutex(self, person):
+        mutex.acquire()
+        try:
+            self.enter_bathroom(person)
+        finally:
+            mutex.release()
 
 
     def join_queue(self, person):
@@ -30,44 +48,46 @@ class Bathroom_Control(object):
         else:
             raise RuntimeError("Gender of queued person not defined")
 
-    def enter_bathroom(self, person):
-        if person in self.men_queue:
-            self.men_queue.remove(person)
-        elif person in self.women_queue:
-            self.women_queue.remove(person)
+    def try_enter_bathroom(self, person):
+        if person.gender == Gender.female and self.available_for_women() \
+        or person.gender == Gender.male and self.available_for_men():
+            self.enter_bathroom(person)
+        else:
+            self.join_queue(person)
+        
 
+    def enter_bathroom(self, person):
         self.bathroom.append(person)
-        self.usage += 1
         self.gender_using = person.gender
         person.start()
-        self.print_status()
 
     def is_available(self, person):
-        return self.usage < self.capacity_max and (self.gender_using == person.gender) or \
+        return len(self.bathroom) < self.capacity_max and (self.gender_using == person.gender) or \
         self.gender_using is None
 
     def leave_bathroom(self, person):
         self.bathroom.remove(person)
-        self.usage -= 1
         self.check_next()
 
     def check_next(self):
-        if self.usage < self.capacity_max:
-            if len(self.men_queue) > 0 and (self.gender_using == Gender.male or \
-            (self.gender_using == Gender.female and len(self.women_queue) == 0)):
-              self.processMutex(self.enter_bathroom(self.men_queue[0]))
-
-            elif len(self.women_queue) > 0 and (self.gender_using == Gender.female or \
-            (self.gender_using == Gender.male and len(self.men_queue) == 0)):
-              self.processMutex(self.enter_bathroom(self.women_queue[0]))
+        if len(self.bathroom) < self.capacity_max:
+            if self.available_for_women():
+                self.processMutex(self.men_queue[0])
+            elif self.available_for_men():
+                self.processMutex(self.women_queue[0])
 
 
-    def print_status(self):
-        print('-----------------------------------------------------')
-        print('BATHROOM STATUS')
-        print('Actual gender:', get_gender_name(self.gender_using))
-        print('Capacity:', self.capacity_max)
-        print('Using:', self.usage)
-        print('Men waiting:', len(self.men_queue))
-        print('Women waiting:', len(self.women_queue))
-        print('-----------------------------------------------------\n\n')
+    def available_for_men(self):
+        if self.gender_using is None or self.gender_using == Gender.male:
+            return True
+        if self.gender_using == Gender.female and len(self.women_queue) == 0:
+            return True
+        return False
+
+    def available_for_women(self):
+        if self.gender_using is None or self.gender_using == Gender.female:
+            return True
+        if self.gender_using == Gender.male and len(self.men_queue) == 0:
+            return True
+        return False
+'''

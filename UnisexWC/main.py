@@ -3,6 +3,7 @@ from person import Person
 from gender import Gender
 import random
 import time
+import os
 
 def get_random_gender():
     bin_val = random.randint(0,1)
@@ -17,12 +18,9 @@ if(__name__ == "__main__"):
     controller = Bathroom_Control(10)
     controller.print_status()
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
         person = Person(get_random_gender(), random.randint(3, 6), controller)
-
-        if controller.is_available(person):
-            controller.enter_bathroom(person)
-        else:
-            controller.join_queue(person)
+        controller.try_enter_bathroom(person)
         controller.print_status()
-        time.sleep(1)
+        time.sleep(0.5)
         
