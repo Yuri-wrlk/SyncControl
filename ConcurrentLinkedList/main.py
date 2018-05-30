@@ -10,14 +10,10 @@ import time
 
 def create_list():
     ll = LinkedList()
-
-    ll.append(random.randint(0, 999999))
-    ll.append(random.randint(0, 999999))
-    ll.append(random.randint(0, 999999), "first")
-    ll.append(random.randint(0, 999999), "pos", pos=3)
-    ll.append(random.randint(0, 999999))
-    print("Lista inicial:")
-    ll.print_list()
+    for i in range(0, 100000):
+        ll.append(random.randint(0, 99999))
+    
+    
     return ll
 
 
@@ -47,10 +43,8 @@ if(__name__ == "__main__"):
     count = 1
     while True:
         count = create_threads(5, ll, sem, count)
-        print("\n\n\n------------------------------------------------------")
-        ll.print_list()
         print("------------------------------------------------------")
-        time.sleep(2)
+        time.sleep(0.2)
 
     
 

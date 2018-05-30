@@ -45,7 +45,7 @@ class LinkedList(object):
             if current.next != None:
                 current = current.next
         if current == self.head:
-            self.__append_first("first")
+            self.__append_first(worker)
             return
         if current == self.tail:
             self.__append_last(worker)
