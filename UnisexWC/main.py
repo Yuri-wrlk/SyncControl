@@ -19,8 +19,12 @@ if(__name__ == "__main__"):
     controller.print_status()
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
-        person = Person(get_random_gender(), random.randint(3, 6), controller)
-        controller.try_enter_bathroom(person)
+            
+        new_person = Person(get_random_gender(), random.randint(1, 4), controller)
+        new_person.try_enter_bathroom()
+        people_waiting, queued_person = controller.get_next_person()
+        if people_waiting:
+            queued_person.try_enter_bathroom()
         controller.print_status()
-        time.sleep(0.5)
+        time.sleep(2)
         
