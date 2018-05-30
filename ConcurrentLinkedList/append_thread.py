@@ -14,7 +14,7 @@ class AppendThread (Thread):
     def run(self, mode="last", pos="1"):
         print("Thread " + str(self.id) + ": Starting insertion")
         self.sem_a.acquire()
-        self.linked_list.append(random.randint(0, 999999))
+        self.linked_list.append(random.randint(0, 999999), mode="pos", pos=random.randint(0, 4))
         self.sem_a.release()
         print("Thread " + str(self.id) + ": Item fully inserted!")
         
