@@ -17,13 +17,15 @@ class Person(Thread):
 
     def run(self):
         
-        print(str(id(self)) + ": I entered the bathroom!")
+        print(str(id(self) % 1000000) + ": I (a "+ get_gender_name(self.gender) + \
+        ") entered the bathroom!")
         start_time = time.time()
         while time.time() - start_time < self.time_spent:
             time.sleep(0.002)
 
         self.bathroom_control.on_person_leave(self)
-        print(str(id(self)) + ": I left the bathroom!")
+        print(str(id(self) % 1000000) + ": I (a "+ get_gender_name(self.gender) + \
+        ") left the bathroom!")
         
 
     def try_enter_bathroom(self):

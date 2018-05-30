@@ -92,5 +92,6 @@ class Bathroom_Control(object):
         print('-----------------------------------------------------\n')
         print("People inside:")
         for i, val in enumerate(self.bathroom):
-            print("Person " + str(i) + ": " + str(id(val) % 100000))
+            print("Person " + str(i + 1) + ": " + str(id(val) % 1000000) + " " \
+            + get_gender_name(val.gender))
 
