@@ -1,2 +1,10 @@
 # SyncControl
-Dois projetos para a prática de estratégias de Sincronização e controle de threads. Feito em python para a disciplina de programação concorrente
+Os projetos desenvolvidos para SyncControl são como o próprio nome já diz, controladores de sincronização. Os dois projetos na prática implementam estratégias de Sincronização e controle de Threads, a linguagem escolhida para o desenvolvimento foi Python.
+
+## Os projetos
+
+* UnisexWC
+* ConcurrentLinkedList
+
+## Como executar
+``` python3 main.py ```
