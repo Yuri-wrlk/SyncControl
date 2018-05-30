@@ -19,7 +19,6 @@ class Person(Thread):
         
         print(str(id(self)) + ": I entered the bathroom!")
         start_time = time.time()
-        print(str(start_time))
         while time.time() - start_time < self.time_spent:
             time.sleep(0.002)
 
