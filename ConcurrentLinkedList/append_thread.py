@@ -12,9 +12,10 @@ class AppendThread (Thread):
         self.id = id
 
     def run(self, mode="last", pos="1"):
-        print("Thread " + str(self.id) + ": Starting insertion")
+        rand_pos = random.randint(0, 10000)
+        print("Thread " + str(self.id) + ": Starting insertion at position " + str(rand_pos))
         self.sem_a.acquire()
-        self.linked_list.append(random.randint(0, 999999), mode="pos", pos=random.randint(0, 4))
+        self.linked_list.append(random.randint(0, 999999), mode="pos", pos=rand_pos)
         self.sem_a.release()
-        print("Thread " + str(self.id) + ": Item fully inserted!")
+        print("Thread " + str(self.id) + ": Item fully inserted at position" + str(rand_pos) + "!")
         

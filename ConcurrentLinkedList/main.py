@@ -44,7 +44,7 @@ if(__name__ == "__main__"):
     while True:
         count = create_threads(5, ll, sem, count)
         print("------------------------------------------------------")
-        time.sleep(0.2)
+        time.sleep(0.5)
 
     
 
