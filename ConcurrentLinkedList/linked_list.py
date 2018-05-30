@@ -12,8 +12,8 @@ class LinkedList(object):
                 return True, current
             current = current.next
         else:
-            return False, None        
-        
+            return False, None
+
 
     def append(self, val, mode="last", pos=1):
         worker = Node(val)
@@ -28,7 +28,7 @@ class LinkedList(object):
                 self.__append_last(worker)
             elif mode == "pos":
                 self.__append_pos(worker, pos)
-                
+
     def __append_first(self, worker):
         worker.next = self.head
         self.head = worker
@@ -36,7 +36,7 @@ class LinkedList(object):
     def __append_last(self, worker):
         self.tail.next = worker
         self.tail = worker
-    
+
     def __append_pos(self, worker, pos):
         current = self.head
         pre = Node(None)
@@ -52,7 +52,7 @@ class LinkedList(object):
             return
         pre.next = worker
         worker.next = current
-        
+
 
     def delete(self, mode="last", pos=1):
         # Skips method if the list is empty
@@ -65,7 +65,7 @@ class LinkedList(object):
             self.__delete_last()
         elif mode == "pos":
             self.__delete_pos(pos)
-            
+
 
     def __delete_first(self):
         # Removes first element and adjusts head
@@ -92,7 +92,7 @@ class LinkedList(object):
             self.tail = pre
             self.tail.next = None
         del current
-        
+
     def __delete_pos(self, pos):
         # Removes element in position passed
         current = self.head
@@ -101,13 +101,13 @@ class LinkedList(object):
             pre = current
             if current.next != None:
                 current = current.next
-        
-        # Checks if the position is that of the head then calls the delete for first to 
+
+        # Checks if the position is that of the head then calls the delete for first to
         # preserve head information
         if current == self.head:
             self.__delete_first()
             return
-        # Checks if the position is that of the tail then calls the delete for last to 
+        # Checks if the position is that of the tail then calls the delete for last to
         # preserve tail information
         if current == self.tail:
             self.__delete_last
