@@ -1,5 +1,5 @@
 from enum import Enum
-from gender import *
+from gender import Gender, get_gender_name
 from threading import Thread
 from bathroom_control import Bathroom_Control
 import time
@@ -12,17 +12,32 @@ class Person(Thread):
         self.gender = gender
         self.time_spent = time_spent
         self.bathroom_control = bathroom_control
+        print('New person created!')
         self.print_person()
 
     def run(self):
-        start_time = time.clock()
-        while time.clock() - start_time < self.time_spent:
-            time.sleep(0.0005)
-        self.bathroom_control.leave_bathroom(self)
+        
+        print(str(id(self)) + ": I entered the bathroom!")
+        start_time = time.time()
+        print(str(start_time))
+        while time.time() - start_time < self.time_spent:
+            time.sleep(0.002)
+
+        self.bathroom_control.on_person_leave(self)
+        print(str(id(self)) + ": I left the bathroom!")
+        
+
+    def try_enter_bathroom(self):
+        if self.bathroom_control.is_available(self):
+            if self.bathroom_control.is_enqueued(self):
+                self.bathroom_control.remove_from_queue(self)
+            self.bathroom_control.on_person_enter(self)
+            self.start()
+        else:
+            self.bathroom_control.join_queue(self)
 
     def print_person(self):
         print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')
-        print('New person created!')
         print('Person ID:', id(self))
         print('Gender:', get_gender_name(self.gender))
         print('Time to spend:', self.time_spent)
