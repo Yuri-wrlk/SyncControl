@@ -8,4 +8,7 @@ Os projetos desenvolvidos para SyncControl são como o próprio nome já diz, co
 
 ## Como executar
 * Cada projeto encontra-se em seu respectivo diretório e cada um possue uma main independente
+
+* No terminal basta digitar:  
+
 ``` python3 main.py ```
