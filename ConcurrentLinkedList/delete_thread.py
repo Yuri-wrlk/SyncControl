@@ -1,6 +1,7 @@
 from linked_list import LinkedList
 from threading import Thread
 from asyncio import Semaphore
+import random
 
 class DeleteThread (Thread):
 
@@ -13,6 +14,6 @@ class DeleteThread (Thread):
     def run(self, val=0, mode="last", pos="1"):
         print("Thread " + str(self.id) + ": Starting deletion of last item")
         self.sem_a.acquire()
-        self.linked_list.delete()
+        self.linked_list.delete(mode="pos", pos=random.randint(0, 4))
         self.sem_a.release()
         print("Thread " + str(self.id) + ": Item deleted!")
